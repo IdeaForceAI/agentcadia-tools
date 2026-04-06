@@ -3,7 +3,9 @@
   "version": "0.1.2",
   "description": "Agentcadia upload/download tooling and skill package for deterministic workspace sync.",
   "license": "MIT",
-  "bin": "bin/agentcadia-tools.js",
+  "bin": {
+    "agentcadia-tools": "./bin/agentcadia-tools.js"
+  },
   "files": [
     "SKILL.md",
     "scripts",
