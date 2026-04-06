@@ -73,6 +73,17 @@ Required metadata fields:
 
 ### Upload command
 
+Before running upload, treat metadata as a hard requirement, not an optional follow-up.
+
+If the CLI says metadata is required, that is not a cue to immediately ask the owner for raw fields. The default behavior should be:
+
+1. inspect the workspace
+2. synthesize the required metadata yourself
+3. pass it via `--metadata-file` or `--metadata-json`
+4. run the upload command
+
+Only ask the owner for missing metadata after you have already attempted a reasonable first draft from the workspace and still cannot produce one safely.
+
 Generate metadata first, save it as a temporary JSON file, then run:
 
 ```bash

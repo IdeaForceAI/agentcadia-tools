@@ -25,12 +25,36 @@ npx @ideaforceai/agentcadia-tools download --help
 
 ### Upload
 
+Important: upload requires metadata. The CLI will fail unless you pass either `--metadata-file` or `--metadata-json`.
+
+For agent runtimes, the expected flow is:
+
+1. read the workspace first
+2. synthesize metadata from workspace files such as `AGENTS.md`, `SOUL.md`, `IDENTITY.md`, `USER.md`, and `TOOLS.md`
+3. build a JSON object containing at least `title`, `summary`, `detailDescription`, `description`, `category`, and `tags`
+4. save that JSON to a temporary file or pass it inline with `--metadata-json`
+5. only then run the upload command
+
+Do not stop at the CLI error and immediately ask the owner for metadata unless the workspace is genuinely too sparse to infer a reasonable first draft.
+
+Example with a metadata file:
+
 ```bash
 npx @ideaforceai/agentcadia-tools upload \
   --task-id <taskId> \
   --origin <origin> \
   --workspace <workspacePath> \
   --metadata-file <metadataJsonPath>
+```
+
+Example with inline metadata JSON:
+
+```bash
+npx @ideaforceai/agentcadia-tools upload \
+  --task-id <taskId> \
+  --origin <origin> \
+  --workspace <workspacePath> \
+  --metadata-json '{"title":"...","summary":"...","detailDescription":"...","description":"...","category":"productivity","tags":["automation","assistant"]}'
 ```
 
 ### Download
