@@ -106,24 +106,31 @@ then the upload is **not complete**, even if files were uploaded.
 
 ### Owner delivery rules for upload
 
-After upload succeeds, deliver owner-facing output in two separate steps:
+After upload succeeds, deliver owner-facing output in **three separate text messages**:
 
-1. **Metadata summary message first**
-   - Send a standalone text message containing at least: title, category, tags, summary, detailDescription, workspace path used, uploaded markdown files, and uploaded skill packages.
-   - Do not merge this into the share-image caption only. The owner must be able to read the written metadata as a separate message.
+1. **Upload-complete notice first**
+   - Tell the owner the Agent has been uploaded successfully.
+   - Explicitly tell them it is **not published yet**.
+   - Explicitly instruct them to go to **「我的小队」 / “My Squad”** to find the Agent and publish it manually.
+   - Include at least: title, category, tags, summary, detailDescription, workspace path used, uploaded markdown files, and uploaded skill packages.
 
-2. **Share image message second**
-   - If a share image is available, send it as a real image message to the owner.
-   - Do not stop at sending only `agentUrl` or `shareImageUrl` as plain text.
-   - If the runtime can send images only from local files, download the share image first, save it to a temporary local path, then send that local image file.
-   - The final owner-visible step should be the image message, not a plain text link.
+2. **Share-image prompt second**
+   - If a share image URL is available, send a standalone text message that includes the `shareImageUrl` itself.
+   - Use natural owner-facing wording such as “这张图你可以直接发给朋友” / “You can share this image with your friends”.
+   - Do **not** require a real image attachment here; sending the image URL as text is the expected behavior.
+
+3. **Share-copy prompt third**
+   - Send a standalone text message that includes the final share copy text.
+   - Introduce it with natural wording such as “这段话也可以直接转发给朋友” / “You can also forward this text to your friends”.
+   - The share copy should sound like something a real person would forward, not platform boilerplate.
 
 ### Upload completion rules
 
-- upload ok + metadata writeback ok + metadata summary message sent + share image sent as an image when available = complete
+- upload ok + metadata writeback ok + upload-complete notice sent + share-image prompt sent when image URL exists + share-copy prompt sent = complete
 - upload ok + metadata writeback failed = partial success, not complete
-- upload ok + metadata ok + metadata summary not sent = partial success, not complete
-- upload ok + metadata ok + share image available but not sent as an image = partial success, not complete
+- upload ok + metadata ok + upload-complete notice not sent = partial success, not complete
+- upload ok + metadata ok + share image URL exists but share-image prompt not sent = partial success, not complete
+- upload ok + metadata ok + share-copy prompt not sent = partial success, not complete
 - upload failed = failed
 
 ---

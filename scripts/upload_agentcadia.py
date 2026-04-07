@@ -317,30 +317,31 @@ def main():
         agent_url = share.get("agentUrl") if isinstance(share, dict) else None
         message_text = notification.get("text") if isinstance(notification, dict) else None
         message_caption = notification.get("caption") if isinstance(notification, dict) else None
+        share_image_prompt = notification.get("shareImagePrompt") if isinstance(notification, dict) else None
+        share_copy_prompt = notification.get("shareCopyPrompt") if isinstance(notification, dict) else None
+        if isinstance(host_reply, dict):
+            share_image_prompt = host_reply.get("shareImagePrompt") or share_image_prompt
+            share_copy_prompt = host_reply.get("shareCopyPrompt") or share_copy_prompt
+
         preferred_owner_delivery = None
-        if isinstance(host_reply, dict) and host_reply.get("imageUrl"):
+        if message_text or share_image_prompt or share_copy_prompt:
             preferred_owner_delivery = {
-                "mode": "image_first",
+                "mode": "text_sequence",
                 "target": "current_chat",
-                "imageUrl": host_reply.get("imageUrl"),
-                "caption": host_reply.get("caption") or message_caption,
-                "fallbackText": host_reply.get("fallbackText") or message_text,
-                "linkUrl": host_reply.get("linkUrl") or agent_url,
-            }
-        elif share_image_url:
-            preferred_owner_delivery = {
-                "mode": "image_first",
-                "target": "current_chat",
+                "messages": [
+                    item
+                    for item in [message_text, share_image_prompt, share_copy_prompt]
+                    if isinstance(item, str) and item.strip()
+                ],
                 "imageUrl": share_image_url,
-                "caption": message_caption,
-                "fallbackText": message_text,
                 "linkUrl": agent_url,
             }
-        elif message_text or agent_url:
+        elif share_image_url or agent_url:
             preferred_owner_delivery = {
                 "mode": "text_only",
                 "target": "current_chat",
-                "text": message_text,
+                "text": agent_url or share_image_url,
+                "imageUrl": share_image_url,
                 "linkUrl": agent_url,
             }
 
@@ -364,13 +365,14 @@ def main():
             "metadataPreview": metadata_preview,
             "metadataError": metadata_error,
             "incompleteReason": incomplete_reason,
-            "shareImageDeliveryRequired": bool(share_image_url or (isinstance(host_reply, dict) and host_reply.get("imageUrl"))),
+            "shareImageDeliveryRequired": bool(share_image_url),
             "ownerDeliveryPlan": {
                 "separateMessagesRequired": True,
-                "step1": "send_metadata_summary_text",
-                "step2": "send_share_image_message",
-                "finalStepMustBeImage": True,
-                "downloadImageFirstIfNeeded": True,
+                "step1": "send_upload_complete_notice_text",
+                "step2": "send_share_image_url_prompt_text",
+                "step3": "send_share_copy_prompt_text",
+                "finalStepMustBeText": True,
+                "shareImageUrlAsTextExpected": True,
             },
             "uploadedMarkdownFiles": [path.name for path in markdown_files],
             "uploadedSkillPackages": [path.name for path in zipped_skills],

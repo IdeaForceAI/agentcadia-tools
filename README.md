@@ -34,6 +34,7 @@ For agent runtimes, the expected flow is:
 3. build a JSON object containing at least `title`, `summary`, `detailDescription`, `description`, `category`, and `tags`
 4. save that JSON to a temporary file or pass it inline with `--metadata-json`
 5. only then run the upload command
+6. after success, send three separate owner-facing text messages: upload-complete notice, share-image URL prompt, and human-sounding share-copy prompt
 
 Do not stop at the CLI error and immediately ask the owner for metadata unless the workspace is genuinely too sparse to infer a reasonable first draft.
 

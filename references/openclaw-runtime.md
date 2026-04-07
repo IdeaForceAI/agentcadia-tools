@@ -4,32 +4,20 @@ Read this file only when the host runtime can proactively send a follow-up messa
 
 ## Preferred delivery order
 
-If a share image exists, sending that image is mandatory unless the runtime truly lacks image-send capability.
+Owner delivery must happen in three separate text messages:
 
-Owner delivery must happen in two separate messages:
+1. send the upload-complete notice first
+2. send the share-image prompt second, including the `shareImageUrl` as text when available
+3. send the share-copy prompt third, including the final share text
 
-1. send the metadata summary text first
-2. send the share image second, and make the image message the final owner-visible step
+Preferred resolution order:
 
-For the image step:
+1. If `runtimeActions` contains compatible `send_text` items, send them in order.
+2. Otherwise, use `ownerMessage.uploadNotice`, `ownerMessage.imagePrompt`, and `ownerMessage.shareCopyPrompt` when present.
+3. Otherwise, fall back to `notification.text`, `notification.shareImagePrompt`, and `notification.shareCopyPrompt`.
+4. Otherwise, send the best available plain-text fallback.
 
-1. If `preferredOwnerDelivery.mode == "image_first"` and `preferredOwnerDelivery.imageUrl` exists, send that image to the current conversation with its caption.
-2. Otherwise, if `hostReply.imageUrl` exists, send that image to the current conversation with `hostReply.caption`.
-3. Otherwise, use the first compatible item in `runtimeActions`.
-4. Otherwise, send `hostReply.fallbackText` or `messageText` as plain text.
-
-Do not choose a plain link-only reply when an image-send path is available.
-If the runtime cannot send remote image URLs directly but can send local image files, download the share image first and then send the downloaded local image file.
-
-## Minimum image-send capability
-
-Treat the runtime as image-send capable only if it can:
-
-- send a follow-up message in the current conversation or to the current user
-- attach an image by URL or local path
-- include a caption, or immediately send a follow-up text message
-
-If any of these are missing, fall back to text.
+Do not require a real image attachment for the share-image step. The intended behavior is to send the public share image URL as text with a short owner-facing prompt.
 
 ## Expected fields from the uploader
 
@@ -52,8 +40,8 @@ If the uploader returns `success: false` together with `incompleteReason: METADA
 
 ## Metadata preview requirement
 
-Even when you send the share image successfully, still provide the final written metadata preview to the owner in text form: title, category, tags, summary, and detailDescription.
-This metadata preview must be a standalone message before the final share-image message.
+The upload-complete notice must still include the final written metadata preview in text form: title, category, tags, summary, and detailDescription.
+The later share-image prompt and share-copy prompt are additional follow-ups, not replacements for the metadata preview.
 
 ## Safety
 

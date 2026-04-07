@@ -1,10 +1,10 @@
 {
   "name": "@ideaforceai/agentcadia-tools",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Agentcadia upload/download tooling and skill package for deterministic workspace sync.",
   "license": "MIT",
   "bin": {
-    "agentcadia-tools": "./bin/agentcadia-tools.js"
+    "agentcadia-tools": "bin/agentcadia-tools.js"
   },
   "files": [
     "SKILL.md",
