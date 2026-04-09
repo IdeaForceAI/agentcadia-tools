@@ -38,10 +38,10 @@ A successful run may return these public-facing fields:
 
 If the uploader returns `success: false` together with `incompleteReason: METADATA_WRITEBACK_REQUIRED`, do not describe the overall task as completed.
 
-## Metadata preview requirement
+## Upload notice requirement
 
-The upload-complete notice must still include the final written metadata preview in text form: title, category, tags, summary, and detailDescription.
-The later share-image prompt and share-copy prompt are additional follow-ups, not replacements for the metadata preview.
+The upload-complete notice should stay short and action-oriented: upload succeeded, not published yet, go to My Squad, plus the final public detail link.
+The later share-image prompt and share-copy prompt are additional follow-ups.
 
 ## Safety
 

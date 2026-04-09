@@ -112,7 +112,7 @@ After upload succeeds, deliver owner-facing output in **three separate text mess
    - Tell the owner the Agent has been uploaded successfully.
    - Explicitly tell them it is **not published yet**.
    - Explicitly instruct them to go to **「我的小队」 / “My Squad”** to find the Agent and publish it manually.
-   - Include at least: title, category, tags, summary, detailDescription, workspace path used, uploaded markdown files, and uploaded skill packages.
+   - Keep this notice short. Prefer the final public detail link over repeating long metadata blocks.
 
 2. **Share-image prompt second**
    - If a share image URL is available, send a standalone text message that includes the `shareImageUrl` itself.
