@@ -13,6 +13,7 @@ This skill exposes two explicit command-style actions:
 
 - `upload`
 - `download`
+- `eval`
 
 Always decide which action the user needs, then run the matching subcommand through the unified script:
 

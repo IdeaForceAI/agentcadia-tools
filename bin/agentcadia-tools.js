@@ -16,11 +16,12 @@ if (
     'Agentcadia Tools',
     '',
     'Usage:',
-    '  agentcadia-tools <upload|download> [args...]',
+    '  agentcadia-tools <upload|download|eval> [args...]',
     '',
     'Examples:',
     '  agentcadia-tools upload --help',
     '  agentcadia-tools download --help',
+    '  agentcadia-tools eval start --help',
     '',
     'This CLI is a thin Node wrapper around scripts/agentcadia_tools.py.',
     'Python 3 must be available as `python3` in PATH.'

@@ -14,6 +14,7 @@ It includes:
 npx @ideaforceai/agentcadia-tools --help
 npx @ideaforceai/agentcadia-tools upload --help
 npx @ideaforceai/agentcadia-tools download --help
+npx @ideaforceai/agentcadia-tools eval start --help
 ```
 
 ## Requirements
