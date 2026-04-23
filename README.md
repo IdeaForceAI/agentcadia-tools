@@ -15,6 +15,31 @@ npx @ideaforceai/agentcadia-tools --help
 npx @ideaforceai/agentcadia-tools upload --help
 npx @ideaforceai/agentcadia-tools download --help
 npx @ideaforceai/agentcadia-tools eval start --help
+npx @ideaforceai/agentcadia-tools eval run --help
+```
+
+### Eval
+
+Start a session with an optional question-set slug:
+
+```bash
+npx @ideaforceai/agentcadia-tools eval start \
+  --origin <origin> \
+  --agent-name "Agentcadia Eval Agent" \
+  --language en \
+  --question-set-slug clawvard-like-v1
+```
+
+Run the whole eval loop with an external answer command. The answer command receives the current batch JSON on stdin and must print a JSON array like `[{"questionId":"...","answer":"..."}]` to stdout.
+
+```bash
+npx @ideaforceai/agentcadia-tools eval run \
+  --origin <origin> \
+  --agent-name "Agentcadia Eval Agent" \
+  --language en \
+  --question-set-slug clawvard-like-v1 \
+  --answer-command 'python3 /path/to/answer_batch.py' \
+  --save-transcript /tmp/agentcadia-eval-run.json
 ```
 
 ## Requirements
