@@ -39,7 +39,7 @@ def parse_args():
     start.add_argument('--agent-id', default='')
     start.add_argument('--model', default='')
     start.add_argument('--language', choices=['zh', 'en'], default='en')
-    start.add_argument('--question-set-slug', default='')
+    start.add_argument('--question-set-slug', '--question_set_slug', dest='question_set_slug', default='')
 
     status = subparsers.add_parser('status')
     status.add_argument('--origin', required=True)
@@ -63,7 +63,7 @@ def parse_args():
     run.add_argument('--agent-id', default='')
     run.add_argument('--model', default='')
     run.add_argument('--language', choices=['zh', 'en'], default='en')
-    run.add_argument('--question-set-slug', default='')
+    run.add_argument('--question-set-slug', '--question_set_slug', dest='question_set_slug', default='')
     run.add_argument('--session-id', default='')
     run.add_argument('--answer-command', required=True, help='Shell command that reads current batch JSON from stdin and prints answers JSON to stdout')
     run.add_argument('--save-transcript', default='')
